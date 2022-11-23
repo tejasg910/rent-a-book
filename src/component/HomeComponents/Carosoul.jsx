@@ -2,7 +2,7 @@ import React from 'react'
 
 const Carosoul = () => {
   return (
-    <div className='bg-teal-500'>    <div
+    <div className='bg-green-500'>    <div
     id="carouselDarkVariant"
     className="carousel slide carousel-fade carousel-dark relative"
     data-bs-ride="carousel"

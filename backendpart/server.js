@@ -3,8 +3,13 @@ const Book = require('./model/Book')
 const express = require('express');
 const app = express();
 const cors = require('cors')
-const port  = 5000;
+const request = require('request');
 const mongoose = require('mongoose');
+const Razorpay = require('razorpay')
+const dotenv = require('dotenv')
+dotenv.config()
+
+const port  =process.env.PORT ||  5000;
 app.use(cors())
 try {
 
@@ -14,6 +19,13 @@ console.log('connected mongo')
 } catch (error) {
     console.log(error)
 }
+
+
+
+// var instance = new Razorpay({
+//     key_id: 'rzp_test_BmcgFDWOCNN52j',
+//     key_secret: 'iB1j9c4r319tJFJ2yldC0LU0',
+//   });
 
 app.get('/', (req, res)=>{
 res.json({success: true})
@@ -67,6 +79,9 @@ app.post("/getbookdetails",express.json(), async(req, res)=>{
     
 
 })
+
+
+
 
 app.listen(port, ()=>{
     console.log("server started successfully on ", port)
