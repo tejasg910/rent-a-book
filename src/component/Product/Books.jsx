@@ -31,13 +31,15 @@ setbooks(data.data)
             <img alt="ecommerce" className="object-cover object-center w-full h-full block" src={item.image}/>
           </a>
           <div className="mt-4">
-            <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+          <p className="mt-1 "> Rating: {item.rating}</p>
+
+            <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">BOOKS</h3>
             <h2 className="text-gray-900 title-font text-lg font-medium">{item.bookName}</h2>
-            <p className="mt-1">{item.price}</p>
+            <p className="mt-1 text-green-600">₹{item.price}</p>
 
             <Link to='/bookdetails'> 
             <button onClick={()=>{showBook(item._id)}} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-  More
+  See Details
 </button>
 </Link>
 

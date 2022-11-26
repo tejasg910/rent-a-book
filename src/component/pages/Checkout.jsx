@@ -1,9 +1,12 @@
 
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
 const Checkout = () => {
     const [books, setbooks] = useState([]);
+    const [random, setRandom] = useState(null);
+const navigate = useNavigate()
     const [totalPayment, settotalPayment] = useState(0);
 
     const getBook = async () => {
@@ -12,19 +15,70 @@ const Checkout = () => {
         cart = JSON.parse(cart)
         for (let item of cart) {
 
-            payment += item.price
+            payment += item.price * item.quantity
 
         }
 
         console.log(payment)
         settotalPayment(payment)
         setbooks(cart)
+        
     }
 
     useEffect(() => {
 
         getBook();
+
     }, []);
+
+
+    const removeItem = (key)=>{
+console.log(key)
+let index = books.indexOf(key)
+console.log(index)
+books.splice(index, 1)
+localStorage.setItem('bookCart', JSON.stringify(books))
+getBook()
+
+
+}
+console.log(books)
+    if(books.length===0){
+        navigate('/books')
+        }
+
+const increament = (item)=>{
+
+    books.map((value)=>{
+        if(item===value){
+            const index = books.indexOf(value);
+            books.splice(index, 1);
+            item.quantity = item.quantity +1;
+            books.push(item);
+            localStorage.setItem('bookCart', JSON.stringify(books))
+        }
+    })
+getBook()
+
+}
+
+const decreament = (item)=>{
+   
+    books.map((value)=>{
+        if(item===value){
+            const index = books.indexOf(value);
+            books.splice(index, 1);
+            if(item.quantity>1){
+
+                item.quantity = item.quantity - 1;
+                books.push(item);
+            }
+            localStorage.setItem('bookCart', JSON.stringify(books))
+        }
+    })
+getBook()
+
+}
     return (
         <div>
 
@@ -111,7 +165,7 @@ const Checkout = () => {
 
 
                                     {books.map((item) => {
-                                        return <div className="flex space-x-4">
+                                        return <div key={item._id} className="flex space-x-4">
                                             <div>
                                                 <img src={item.image} alt="image"
                                                     className="w-60 h-40" />
@@ -120,11 +174,15 @@ const Checkout = () => {
                                                 <h2 className="text-xl font-bold">{item.bookName}</h2>
                                                 <p className="text-sm">writer:  {item.writer}</p>
                                                 <span className="text-red-600">Price</span> ₹{item.price}
+                                                <div>
+                                                   
+                                             <p>Qty: <span className='text-white bg-red-500 rounded-full p-1 mx-1 cursor-pointer'  onClick={()=>{decreament(item)}}>-</span>{item.quantity}<span className='text-white bg-green-500 rounded-full p-1 mx-1 cursor-pointer' onClick={()=>{increament(item)}}>+</span></p> 
+                                                </div>
                                             </div>
 
 
                                             <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none"
+                                                <svg onClick={()=>{removeItem(item)}} xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                                         d="M6 18L18 6M6 6l12 12" />
@@ -145,17 +203,17 @@ const Checkout = () => {
                                 </div>
                             </div>
                             <div className="flex p-4 mt-4">
-                                <h2 className="text-xl font-bold">ITEMS 2</h2>
+                                <h2 className="text-xl font-bold">ITEMS {books.length}</h2>
                             </div>
                             <div
                                 className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                                Subtotal<span className="ml-2">$40.00</span></div>
+                                Subtotal<span className="ml-2">₹{totalPayment}</span></div>
                             <div
                                 className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                                Shipping Tax<span className="ml-2">$10</span></div>
+                                Shipping Tax<span className="ml-2">₹0</span></div>
                             <div
                                 className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                                Total<span className="ml-2">$50.00</span></div>
+                                Total<span className="ml-2">₹{totalPayment}</span></div>
                         </div>
                     </div>
                 </div>

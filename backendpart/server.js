@@ -9,6 +9,7 @@ const Razorpay = require('razorpay')
 const dotenv = require('dotenv')
 dotenv.config()
 
+const signUp = require('./userApi/signup.js')
 const port  =process.env.PORT ||  5000;
 app.use(cors())
 try {
@@ -80,6 +81,8 @@ app.post("/getbookdetails",express.json(), async(req, res)=>{
 
 })
 
+app.use('/api', require('./userApi/signup'))
+app.use('/api', require('./userApi/signin'))
 
 
 

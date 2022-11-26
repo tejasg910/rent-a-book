@@ -13,6 +13,6 @@ const BookSchema  =new  mongoose.Schema({
     quantity: {type:Number, default:1}
 })
 
-
+mongoose.models = {}
 module.exports = mongoose.model("Book", BookSchema)
 // export default mongoose.model('Book', BookSchema);
