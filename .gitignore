@@ -7,7 +7,8 @@
 backendpart/node_modules
 # testing
 /coverage
-
+.env
+backendpart/.env
 # production
 /build
 
